@@ -8,33 +8,24 @@ export const MultipleCustomHooks = () => {
   const { count, handleIncrement } = useCounter(1);
   const url = `https://thesimpsonsapi.com/api/characters/${count}`;
 
-  const { data, isLoading, error, getFetch } = useFetch();
+  const { state, getFetch } = useFetch(count);
+  const { data, isLoading } = state;
 
   useEffect(() => {
     getFetch(url);
-
     return () => {
       console.log("desmonta useFetch");
+      console.log(data);
     };
   }, [url]);
 
   return (
     <>
       <h1>Los simpsons API</h1>
-      <h2>Personajes</h2>
+      <h2>Personajes: </h2>
       <hr />
-
-      {isLoading ? (
-        <Loading />
-      ) : error ? (
-        <div className="alert alert-danger text-center">
-          <h3>Error:</h3>
-          <p>{error}</p>
-          <p>(El ID: {count} no existe)</p>
-        </div>
-      ) : (
-        <CharacterInfo data={data} />
-      )}
+      {console.log(data)}
+      {isLoading ? <Loading /> : <CharacterInfo data={data} />}
 
       <button
         onClick={() => handleIncrement(1)}

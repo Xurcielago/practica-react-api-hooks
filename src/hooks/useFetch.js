@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useFetch = (url) => {
+export const useFetch = (count) => {
   // Estado inicial del hook
   const [state, setState] = useState({
     data: null,
@@ -22,9 +22,9 @@ export const useFetch = (url) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const data = await resp.json();
-
+      console.log(data + "desde el fetch");
       setState({
-        data: data[0],
+        data: data,
         isLoading: false,
         error: null,
       });
@@ -39,9 +39,7 @@ export const useFetch = (url) => {
   };
 
   return {
-    data: state.data,
-    isLoading: state.isLoading,
-    error: state.error,
+    state,
     getFetch,
   };
 };
